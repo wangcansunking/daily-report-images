@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack - DEV Community</title>
+    
+    <link rel="preload" href="/reactions?article_id=3779978" as="fetch" crossorigin="same-origin">
+    <link rel="canonical" href="https://wowhow.cloud/blogs/microsoft-build-2026-windows-agent-runtime-copilot-developer-guide-2026" />
+    <meta name="description" content="Microsoft Build 2026 (June 2–3, San Francisco) developer guide: Windows Agent Runtime, Agent Framework GA, multi-model Copilot, and Azure AI Foundry. Tagged with microsoftbuild, windowsagent, microsoftagent, azureai.">
+    <meta name="keywords" content="microsoftbuild, windowsagent, microsoftagent, azureai, software, coding, development, engineering, inclusive, community">
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://dev.to/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi" />
+    <meta property="og:title" content="Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack" />
+    <meta property="og:description" content="Microsoft Build 2026 (June 2–3, San Francisco) developer guide: Windows Agent Runtime, Agent Framework GA, multi-model Copilot, and Azure AI Foundry." />
+    <meta property="og:site_name" content="DEV Community" />
+    <meta name="twitter:site" content="@thepracticaldev">
+    <meta name="twitter:creator" content="@Akaranjkar08">
+    <meta name="author-trust" content="0">
+    <meta name="twitter:title" content="Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack">
+    <meta name="twitter:description" content="Microsoft Build 2026 (June 2–3, San Francisco) developer guide: Windows Agent Runtime, Agent Framework GA, multi-model Copilot, and Azure AI Foundry.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:widgets:new-embed-design" content="on">
+    <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+      <meta property="og:image" content="https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfuw1oxvmmf1pkxsafvv.png" />
+      <meta name="twitter:image:src" content="https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfuw1oxvmmf1pkxsafvv.png">
+
+      <meta name="last-updated" content="2026-05-31 05:29:47 UTC">
+      <meta name="user-signed-in" content="false">
+      <meta name="head-cached-at" content="1780205387">
+      <meta name="environment" content="production">
+      <link rel="stylesheet" href="https://assets.dev.to/assets/minimal-2213124ac5505ccdbf3c4eb62fd70ecda26cb75ed6de931633992a7bac437c81.css" media="all" id="main-minimal-stylesheet" />
+<link rel="stylesheet" href="https://assets.dev.to/assets/views-c581f3ca25e0e5dbcca1a75ac69c5f9619c745c0921ac6ca23900d0e544304e1.css" media="all" id="main-views-stylesheet" />
+<link rel="stylesheet" href="https://assets.dev.to/assets/crayons-678e7206e7d9362502be443e97b850a1792798820739cb15d65e776cd88286c4.css" media="all" id="main-crayons-stylesheet" />
+
+      <script src="https://assets.dev.to/assets/base-9cdd8d8f848354c77d3b710ebb3e0a2986a2b81ec79a0693de3bd9dae1fe6c31.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/application-aa01e31e540dc9c2136911d837ddc559b05fa85edd7566259db5258bd29af4ef.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/baseInitializers-c0e11216679870c229a859952f505c8dbd077a224d822df753a07004dfa899e3.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/baseTracking-5641b519c0a68c2da68d9ff253a0d805d8ed8093b27ed2f24ed2d38e5b2f9f4c.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/followButtons-e3595664847e9f43945a9b8a0445b32cda9a149f1f169f78b8fcc7714ccab45a.js" defer="defer"></script>
+
+        <meta name="search-script" content="https://assets.dev.to/assets/Search-b977aea0f2d7a5818b4ebd97f7d4aba8548099f84f5db5761f8fa67be76abc54.js">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+      <link rel="icon" type="image/x-icon" href="https://media2.dev.to/dynamic/image/width=32,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png" />
+      <link rel="apple-touch-icon" href="https://media2.dev.to/dynamic/image/width=180,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png">
+      <link rel="apple-touch-icon" sizes="152x152" href="https://media2.dev.to/dynamic/image/width=152,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png">
+      <link rel="apple-touch-icon" sizes="180x180" href="https://media2.dev.to/dynamic/image/width=180,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png">
+      <link rel="apple-touch-icon" sizes="167x167" href="https://media2.dev.to/dynamic/image/width=167,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png">
+      <link href="https://media2.dev.to/dynamic/image/width=192,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png" rel="icon" sizes="192x192" />
+      <link href="https://media2.dev.to/dynamic/image/width=128,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png" rel="icon" sizes="128x128" />
+      <meta name="apple-mobile-web-app-title" content="dev.to">
+      <meta name="application-name" content="dev.to">
+      <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+      <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+      <link rel="search" href="https://dev.to/open-search.xml" type="application/opensearchdescription+xml" title="DEV Community" />
+
+      <meta property="forem:name" content="DEV Community" />
+      <meta property="forem:logo" content="https://media2.dev.to/dynamic/image/width=512,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png" />
+      <meta property="forem:domain" content="dev.to" />
+    <style>
+/* ==========================================================================
+   THE 418 CHALLENGE: THEME-AWARE RETRO EDITION
+   ========================================================================== */
+
+.articletag-418challenge {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Marker Felt", sans-serif !important;
+  cursor: crosshair !important;
+}
+
+/* Destroy modern rounded corners and add brutal borders */
+.articletag-418challenge .crayons-card,
+.articletag-418challenge .crayons-article__main,
+.articletag-418challenge .crayons-article__header {
+  border-radius: 0 !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Typography specifics */
+.articletag-418challenge h1,
+.articletag-418challenge h2,
+.articletag-418challenge h3 {
+  text-transform: uppercase !important;
+}
+
+/* Fake <marquee> effect for the main article title */
+.articletag-418challenge h1.fs-3xl {
+  animation: retro-slide 5s linear infinite alternate;
+  overflow: visible;
+}
+
+/* Spin those avatars */
+.articletag-418challenge .crayons-article__header__meta img {
+  border-radius: 0 !important; 
+  animation: retro-spin 5s linear infinite;
+}
+
+/* Obnoxious tags */
+.articletag-418challenge .crayons-tag {
+  border-radius: 0 !important;
+  font-weight: 900 !important;
+  transform: rotate(-3deg);
+  display: inline-block;
+}
+.articletag-418challenge .crayons-tag:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+/* --------------------------------------------------------------------------
+   2. LIGHT THEME (Windows 95 / Office 97 Vibes)
+   -------------------------------------------------------------------------- */
+body:not(.dark-theme) .articletag-418challenge {
+  background-color: #008080 !important; /* Win95 Teal Desktop */
+}
+
+body:not(.dark-theme) .articletag-418challenge .crayons-card,
+body:not(.dark-theme) .articletag-418challenge .crayons-article__main,
+body:not(.dark-theme) .articletag-418challenge .crayons-article__header {
+  background-color: #c0c0c0 !important; /* Classic dialog gray */
+  color: #000000 !important;
+  border: 4px outset #ffffff !important;
+  box-shadow: 8px 8px 0px #000000 !important;
+}
+
+body:not(.dark-theme) .articletag-418challenge h1,
+body:not(.dark-theme) .articletag-418challenge h2,
+body:not(.dark-theme) .articletag-418challenge h3 {
+  color: #ff0000 !important;
+  text-shadow: 2px 2px 0px #ffff00 !important;
+  border-bottom: 3px dashed #0000ff !important;
+}
+
+body:not(.dark-theme) .articletag-418challenge a,
+body:not(.dark-theme) .articletag-418challenge .crayons-link {
+  color: #0000ff !important; /* Standard unvisited blue */
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+body:not(.dark-theme) .articletag-418challenge a:hover,
+body:not(.dark-theme) .articletag-418challenge .crayons-link:hover {
+  background-color: #ffff00 !important;
+  color: #ff0000 !important;
+}
+
+body:not(.dark-theme) .articletag-418challenge .crayons-tag {
+  background: #ffff00 !important;
+  color: #ff0000 !important;
+  border: 2px dotted #0000ff !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. DARK THEME (1999 Hacker / Deep GeoCities Vibes)
+   -------------------------------------------------------------------------- */
+body.dark-theme .articletag-418challenge {
+  background-color: #000000 !important;
+  /* Dumb CSS: A scrolling, eye-bleeding neon green hacker grid with CRT scanlines */
+  background-image: 
+    linear-gradient(transparent 50%, rgba(0, 255, 0, 0.25) 50%), 
+    linear-gradient(90deg, rgba(0, 255, 0, 0.5) 1px, transparent 1px), 
+    linear-gradient(rgba(0, 255, 0, 0.5) 1px, transparent 1px) !important;
+  background-size: 100% 4px, 20px 20px, 20px 20px !important;
+  animation: retro-pan 60s linear infinite !important;
+}
+
+body.dark-theme .articletag-418challenge .crayons-card,
+body.dark-theme .articletag-418challenge .crayons-article__main,
+body.dark-theme .articletag-418challenge .crayons-article__header {
+  background-color: #111111 !important;
+  color: #00ff00 !important; /* Terminal Green */
+  border: 4px outset #555555 !important;
+  box-shadow: 8px 8px 0px #ff00ff !important; /* Hot pink shadow */
+}
+
+body.dark-theme .articletag-418challenge h1,
+body.dark-theme .articletag-418challenge h2,
+body.dark-theme .articletag-418challenge h3 {
+  color: #ff00ff !important; /* Magenta headers */
+  text-shadow: 2px 2px 0px #00ffff !important; /* Cyan shadow */
+  border-bottom: 3px dashed #00ff00 !important;
+}
+
+body.dark-theme .articletag-418challenge a,
+body.dark-theme .articletag-418challenge .crayons-link {
+  color: #00ffff !important; /* Cyan links */
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+body.dark-theme .articletag-418challenge a:hover,
+body.dark-theme .articletag-418challenge .crayons-link:hover {
+  background-color: #ff00ff !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .articletag-418challenge .crayons-tag {
+  background: #000000 !important;
+  color: #00ff00 !important;
+  border: 2px dotted #ff00ff !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes retro-spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes retro-slide {
+  0% { transform: translateX(-2%); }
+  100% { transform: translateX(2%); }
+}
+
+@keyframes retro-pan {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  /* Numbers must be multiples of the background-size (4px and 20px) to loop perfectly */
+  100% { background-position: 0 100px, 40px 40px, 40px 40px; }
+}
+
+/* --------------------------------------------------------------------------
+   5. BONUS: CAUTION TAPE REACTION BAR
+   -------------------------------------------------------------------------- */
+.articletag-418challenge .crayons-article-actions {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffff00,
+    #ffff00 10px,
+    #000000 10px,
+    #000000 20px
+  ) !important;
+  border: 4px solid #ff0000 !important;
+  border-radius: 0 !important;
+}
+
+.articletag-418challenge .crayons-article-actions button {
+  background:black;
+  color: #ff00ff !important;
+}
+
+.articletag-418challenge .crayons-article-actions .crayons-reaction__count {
+    color: #ff00ff !important;
+    font-weight: bold !important;
+}
+
+.articletag-418challenge .crayons-icon:not(.crayons-icon--default) * {
+    fill: #ffff00 !important;
+}
+
+.articletag-418challenge .c-embed .crayons-btn--primary {
+  color: #00ff00 !important;
+}
+
+.articletag-418challenge .popover-billboard {
+margin-bottom: 0 !important;
+}
+
+.crayons-story__contentpreview .ltag__link--embedded {
+margin-top: 0 !important;
+}
+
+.subscription-icon {
+    max-height: 16px !important;
+    display: inline-block !important;
+}
+
+@media screen and (min-width: 950px) {
+    .event-show-layout {
+        margin-top: 24px !important;
+    }
+}
+
+@media screen and (max-width: 949px) {
+    .event-show-layout {
+        padding: 11px !important;
+    }
+}
+
+
+</style>
+  </head>
+    <body
+      class="sans-serif-article-body default-header"
+      data-user-status="logged-out"
+      data-is-root-subforem="false"
+        data-subforem-id="1"
+      data-side-nav-visible="true"
+      data-community-name="DEV Community"
+      data-subscription-icon="https://assets.dev.to/assets/subscription-icon-805dfa7ac7dd660f07ed8d654877270825b07a92a03841aa99a1093bd00431b2.png"
+      data-locale="en"
+      data-honeybadger-key="hbp_nqu4Y66HuEKlD6YRGssZuRQnPOjDm50J8Zkr"
+      data-deployed-at="2026-05-29T17:56:40Z"
+      data-latest-commit-id="97d1930a0d2825e14c5e8088d495a233db7db0ba"
+      data-ga-tracking="UA-71991109-1"
+      data-cookie-banner-user-context="logged_out_only"
+      data-cookie-banner-platform-context="off"
+      data-algolia-id="PRSOBFP46H"
+      data-algolia-search-key="9aa7d31610cba78851c9b1f63776a9dd"
+      data-algolia-display="true"
+      data-dynamic-url-component="bmar11"
+      data-ga4-tracking-id="G-TYEM8Y3JN3"
+      data-global-feature-flags-enabled="data_update_scripts schedule_articles moderator_role replace_unicorn_with_jump_to_comments optimize_article_tag_query display_ad_tags consistent_rendering ab_experiment_feed_strategy multiple_reactions hero_billboard onboarding_newsletter_content article_id_adjusted_weight cloudflare_preferred_for_hosted_images digest_subject_testing digest_results_count_testing algolia_frontend subscriber_icon use_stories_endpoint discover_and_following_tabs onboarding_drip_emails gemini_onboarding onboarding_custom_cta_slide personalized_email_digests">
+      
+      <script>
+        if (navigator.userAgent === 'ForemWebView/1' || window.frameElement) {
+          document.body.classList.add("hidden-shell");
+        }
+          if (new Date() > new Date("2026-02-04T09:00:00-05:00")) {
+            document.body.dataset.sideNavVisible = "false";
+          } 
+      </script>
+
+      <link rel="stylesheet" href="https://assets.dev.to/assets/minimal-2213124ac5505ccdbf3c4eb62fd70ecda26cb75ed6de931633992a7bac437c81.css" media="all" id="secondary-minimal-stylesheet" />
+<link rel="stylesheet" href="https://assets.dev.to/assets/views-c581f3ca25e0e5dbcca1a75ac69c5f9619c745c0921ac6ca23900d0e544304e1.css" media="all" id="secondary-views-stylesheet" />
+<link rel="stylesheet" href="https://assets.dev.to/assets/crayons-678e7206e7d9362502be443e97b850a1792798820739cb15d65e776cd88286c4.css" media="all" id="secondary-crayons-stylesheet" />
+
+      <div id="body-styles">
+        <style>
+          :root {
+            --accent-brand-lighter-rgb: 86, 105, 285;
+            --accent-brand-rgb: 64, 78, 211;
+            --accent-brand-darker-rgb: 51, 62, 169;
+          }
+        </style>
+      </div>
+      <div id="audiocontent" data-podcast="">
+        
+      </div>
+      <div class="navigation-progress" id="navigation-progress"></div>
+
+<header id="topbar" class="crayons-header topbar print-hidden">
+  <span id="route-change-target" tabindex="-1"></span>
+  <a href="#main-content" class="skip-content-link">Skip to content</a>
+  <div class="crayons-header__container">
+    <span class="inline-block m:hidden ">
+      <button class="c-btn c-btn--icon-alone js-hamburger-trigger mx-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="akkm8gu676y7ca44mbzbseul9iktuk8z" class="crayons-icon"><title id="akkm8gu676y7ca44mbzbseul9iktuk8z">Navigation menu</title>
+    <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"></path>
+</svg>
+
+      </button>
+    </span>
+    <a href="/" class="site-logo" aria-label="DEV Community Home" >
+    <img class="site-logo__img"
+         src="https://media2.dev.to/dynamic/image/quality=100/https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+         style="aspect-ratio: 10 / 8"
+         alt="DEV Community">
+</a>
+
+
+    <div class="crayons-header--search js-search-form" id="header-search">
+      <form accept-charset="UTF-8" method="get" action="/search" role="search">
+        <div class="crayons-fields crayons-fields--horizontal">
+          <div class="crayons-field flex-1 relative">
+            <input id="search-input" class="crayons-header--search-input crayons-textfield js-search-input" type="text" id="nav-search" name="q" placeholder="Find related posts..." autocomplete="off" />
+            <button type="submit" aria-label="Search" class="c-btn c-btn--icon-alone absolute inset-px right-auto mt-0 py-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="agdrns1jf43sr2lw1m9baopfizohqds5" aria-hidden="true" class="crayons-icon"><title id="agdrns1jf43sr2lw1m9baopfizohqds5">Search</title>
+    <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0111 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 01-1.969 5.617zm-2.006-.742A6.977 6.977 0 0018 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 004.875-1.975l.15-.15z"></path>
+</svg>
+
+            </button>
+
+            <a class="crayons-header--search-brand-indicator" href="https://www.algolia.com/developers/?utm_source=devto&utm_medium=referral" target="_blank" rel="noopener noreferrer">
+                Powered by Algolia
+                <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" width="24" height="24" viewBox="0 0 500 500.34" role="img" aria-labelledby="aiqm7txpsxp2f24e11162ddkiaihi1r2" aria-hidden="true" class="crayons-icon"><title id="aiqm7txpsxp2f24e11162ddkiaihi1r2">Search</title>
+  <defs></defs><path class="cls-1" d="M250,0C113.38,0,2,110.16,.03,246.32c-2,138.29,110.19,252.87,248.49,253.67,42.71,.25,83.85-10.2,120.38-30.05,3.56-1.93,4.11-6.83,1.08-9.52l-23.39-20.74c-4.75-4.22-11.52-5.41-17.37-2.92-25.5,10.85-53.21,16.39-81.76,16.04-111.75-1.37-202.04-94.35-200.26-206.1,1.76-110.33,92.06-199.55,202.8-199.55h202.83V407.68l-115.08-102.25c-3.72-3.31-9.43-2.66-12.43,1.31-18.47,24.46-48.56,39.67-81.98,37.36-46.36-3.2-83.92-40.52-87.4-86.86-4.15-55.28,39.65-101.58,94.07-101.58,49.21,0,89.74,37.88,93.97,86.01,.38,4.28,2.31,8.28,5.53,11.13l29.97,26.57c3.4,3.01,8.8,1.17,9.63-3.3,2.16-11.55,2.92-23.6,2.07-35.95-4.83-70.39-61.84-127.01-132.26-131.35-80.73-4.98-148.23,58.18-150.37,137.35-2.09,77.15,61.12,143.66,138.28,145.36,32.21,.71,62.07-9.42,86.2-26.97l150.36,133.29c6.45,5.71,16.62,1.14,16.62-7.48V9.49C500,4.25,495.75,0,490.51,0H250Z"></path>
+</svg>
+
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex items-center h-100 ml-auto">
+        <div class="flex" id="authentication-top-nav-actions">
+          <span class="hidden m:block">
+            <a href="https://dev.to/enter?signup_subforem=1" class="c-link c-link--block mr-2 whitespace-nowrap ml-auto" data-no-instant>
+              Log in
+            </a>
+          </span>
+
+          <a href="https://dev.to/enter?signup_subforem=1&amp;state=new-user" data-tracking-id="ca_top_nav" data-tracking-source="top_navbar" class="c-cta c-cta--branded whitespace-nowrap mr-2" data-no-instant>
+            Create account
+          </a>
+        </div>
+    </div>
+  </div>
+</header>
+
+<div class="hamburger">
+  <div class="hamburger__content">
+    <header class="hamburger__content__header">
+      <h2 class="fs-l fw-bold flex-1 break-word lh-tight">DEV Community</h2>
+
+      <button class="c-btn c-btn--icon-alone js-hamburger-trigger shrink-0" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a8q9rvm71mnu7a28l5izbl1n32dcsopu" aria-hidden="true" class="crayons-icon c-btn__icon"><title id="a8q9rvm71mnu7a28l5izbl1n32dcsopu">Close</title><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95z"></path></svg>
+
+      </button>
+    </header>
+
+    <div class="p-2 js-navigation-links-container" id="authentication-hamburger-actions">
+    </div>
+  </div>
+  <div class="hamburger__overlay js-hamburger-trigger"></div>
+</div>
+
+
+      <div id="active-broadcast" class="broadcast-wrapper"></div>
+<div id="page-content" class="wrapper stories stories-show articletag-microsoftbuild articletag-windowsagent articletag-microsoftagent articletag-azureai articleuser-235395" data-current-page="stories-show">
+  <div id="page-content-inner" data-internal-nav="false" data-viewable-id="3779978" data-viewable-type="Article">
+    <div id="page-route-change" class="screen-reader-only" aria-live="polite" aria-atomic="true"></div>
+
+    
+<style>
+  .html-variant-wrapper { display: none}
+</style>
+
+
+
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-loader.js"
+        integrity="sha384-3HK5hxQbkFqOIxMbpROlRmRtYl2LBZ52t+tqcjzsmr9NJuOWQxl8RgQSyFvq2lhy"
+        crossorigin="anonymous" defer></script>
+
+  <script src="https://assets.dev.to/assets/webShare-0686f0b9ac40589694ef6ae6a6202c44119bc781c254f6cf6d52d8a008461156.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/articlePage-ed23d70916aed9a7fec41f94e64aac17438d3210c1bb1d6fceace80f15445213.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/commentDropdowns-7a28d130e5b78d38b30a9495a964003a66bd64fa455fc70b766d69cf06b9ba24.js" defer="defer"></script>
+
+
+  <script type="application/ld+json">
+    {"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://dev.to/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi"},"url":"https://dev.to/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi","image":["https://media2.dev.to/dynamic/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfuw1oxvmmf1pkxsafvv.png","https://media2.dev.to/dynamic/image/width=1280,height=720,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfuw1oxvmmf1pkxsafvv.png","https://media2.dev.to/dynamic/image/width=1600,height=900,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfuw1oxvmmf1pkxsafvv.png"],"publisher":{"@context":"http://schema.org","@type":"Organization","name":"DEV Community","logo":{"@context":"http://schema.org","@type":"ImageObject","url":"https://media2.dev.to/dynamic/image/width=192,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png","width":"192","height":"192"}},"headline":"Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack","author":{"@context":"http://schema.org","@type":"Person","url":"https://dev.to/akaranjkar08","name":"Anup Karanjkar"},"datePublished":"2026-05-29T18:22:52Z","dateModified":"2026-05-29T18:22:52Z"}
+  </script>
+
+  
+  <div class="crayons-layout crayons-layout--3-cols crayons-layout--article">
+    <aside class="crayons-layout__sidebar-left" aria-label="Article actions">
+      <script>
+  if (/Twitter for (iPhone|iPad|Android)/i.test(navigator.userAgent)) {
+    document.documentElement.classList.add('is-twitter-in-app');
+  }
+</script>
+
+  <div class="crayons-article-actions print-hidden">
+    <div class="crayons-article-actions__inner">
+
+      
+<div class="reaction-drawer__outer hoverdown" style="">
+  <button
+    id="reaction-drawer-trigger"
+    aria-label="reaction-drawer-trigger"
+    aria-pressed="false"
+    class="hoverdown-trigger crayons-reaction pseudo-reaction crayons-tooltip__activator relative">
+      <span class="crayons-reaction__icon crayons-reaction__icon--borderless crayons-reaction--like crayons-reaction__icon--inactive" style="width: 40px; height: 40px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-hidden="true" class="crayons-icon">
+    <g clip-path="url(#clip0_988_3276)">
+        <path d="M19 14V17H22V19H18.999L19 22H17L16.999 19H14V17H17V14H19ZM20.243 4.75698C22.505 7.02498 22.583 10.637 20.479 12.992L19.059 11.574C20.39 10.05 20.32 7.65998 18.827 6.16998C17.324 4.67098 14.907 4.60698 13.337 6.01698L12.002 7.21498L10.666 6.01798C9.09103 4.60598 6.67503 4.66798 5.17203 6.17198C3.68203 7.66198 3.60703 10.047 4.98003 11.623L13.412 20.069L12 21.485L3.52003 12.993C1.41603 10.637 1.49503 7.01898 3.75603 4.75698C6.02103 2.49298 9.64403 2.41698 12 4.52898C14.349 2.41998 17.979 2.48998 20.242 4.75698H20.243Z" fill="#525252"></path>
+    </g>
+    <defs>
+        <clipPath id="clip0_988_3276">
+        <rect width="24" height="24" fill="white"></rect>
+        </clipPath>
+    </defs>
+</svg>
+
+      </span>
+      <span class="crayons-reaction__icon crayons-reaction__icon--borderless crayons-reaction__icon--active" style="width: 40px; height: 40px">
+        <img aria_hidden="true" height="24" width="24" src="https://assets.dev.to/assets/heart-plus-active-9ea3b22f2bc311281db911d416166c5f430636e76b15cd5df6b3b841d830eefa.svg" />
+      </span>
+      <span class="crayons-reaction__count" id="reaction_total_count">
+        <span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span>
+      </span>
+      <span class="crayons-tooltip__content">
+        Add reaction
+      </span>
+  </button>
+
+  <div class="reaction-drawer" aria-expanded="false">
+    <div class="reaction-drawer__container">
+        <button
+  id="reaction-butt-like"
+  name="Like"
+  aria-label="Like"
+  aria-pressed="false"
+  class="crayons-reaction crayons-tooltip__activator relative pt-2 pr-2 pb-1 pl-2"
+  data-category="like">
+    <span class="crayons-reaction__icon crayons-reaction__icon--inactive p-0">
+      <img aria_hidden="true" height="32" width="32" src="https://assets.dev.to/assets/sparkle-heart-5f9bee3767e18deb1bb725290cb151c25234768a0e9a2bd39370c382d02920cf.svg" />
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-like"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+</button>
+
+        <button
+  id="reaction-butt-unicorn"
+  name="Unicorn"
+  aria-label="Unicorn"
+  aria-pressed="false"
+  class="crayons-reaction crayons-tooltip__activator relative pt-2 pr-2 pb-1 pl-2"
+  data-category="unicorn">
+    <span class="crayons-reaction__icon crayons-reaction__icon--inactive p-0">
+      <img aria_hidden="true" height="32" width="32" src="https://assets.dev.to/assets/multi-unicorn-b44d6f8c23cdd00964192bedc38af3e82463978aa611b4365bd33a0f1f4f3e97.svg" />
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-unicorn"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Unicorn
+    </span>
+</button>
+
+        <button
+  id="reaction-butt-exploding_head"
+  name="Exploding Head"
+  aria-label="Exploding Head"
+  aria-pressed="false"
+  class="crayons-reaction crayons-tooltip__activator relative pt-2 pr-2 pb-1 pl-2"
+  data-category="exploding_head">
+    <span class="crayons-reaction__icon crayons-reaction__icon--inactive p-0">
+      <img aria_hidden="true" height="32" width="32" src="https://assets.dev.to/assets/exploding-head-daceb38d627e6ae9b730f36a1e390fca556a4289d5a41abb2c35068ad3e2c4b5.svg" />
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-exploding_head"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Exploding Head
+    </span>
+</button>
+
+        <button
+  id="reaction-butt-raised_hands"
+  name="Raised Hands"
+  aria-label="Raised Hands"
+  aria-pressed="false"
+  class="crayons-reaction crayons-tooltip__activator relative pt-2 pr-2 pb-1 pl-2"
+  data-category="raised_hands">
+    <span class="crayons-reaction__icon crayons-reaction__icon--inactive p-0">
+      <img aria_hidden="true" height="32" width="32" src="https://assets.dev.to/assets/raised-hands-74b2099fd66a39f2d7eed9305ee0f4553df0eb7b4f11b01b6b1b499973048fe5.svg" />
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-raised_hands"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Raised Hands
+    </span>
+</button>
+
+        <button
+  id="reaction-butt-fire"
+  name="Fire"
+  aria-label="Fire"
+  aria-pressed="false"
+  class="crayons-reaction crayons-tooltip__activator relative pt-2 pr-2 pb-1 pl-2"
+  data-category="fire">
+    <span class="crayons-reaction__icon crayons-reaction__icon--inactive p-0">
+      <img aria_hidden="true" height="32" width="32" src="https://assets.dev.to/assets/fire-f60e7a582391810302117f987b22a8ef04a2fe0df7e3258a5f49332df1cec71e.svg" />
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-fire"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Fire
+    </span>
+</button>
+
+    </div>
+  </div>
+</div>
+
+<button
+  id="reaction-butt-comment"
+  aria-label="Jump to Comments"
+  aria-pressed="false"
+  class="crayons-reaction crayons-reaction--comment crayons-tooltip__activator relative"
+  data-category="comment">
+    <span class="crayons-reaction__icon crayons-reaction__icon--borderless crayons-reaction__icon--inactive">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-hidden="true" class="crayons-icon">
+    <path d="M10 3h4a8 8 0 010 16v3.5c-5-2-12-5-12-11.5a8 8 0 018-8zm2 14h2a6 6 0 000-12h-4a6 6 0 00-6 6c0 3.61 2.462 5.966 8 8.48V17z"></path>
+</svg>
+
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-comment" data-count="0">
+      <span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span>
+    </span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Jump to Comments
+    </span>
+</button>
+
+<button
+  id="reaction-butt-readinglist"
+  aria-label="Add to reading list"
+  aria-pressed="false"
+  class="crayons-reaction crayons-reaction--readinglist crayons-tooltip__activator relative"
+  data-category="readinglist">
+    <span class="crayons-reaction__icon crayons-reaction__icon--borderless crayons-reaction__icon--inactive">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-hidden="true" class="crayons-icon">
+    <path d="M5 2h14a1 1 0 011 1v19.143a.5.5 0 01-.766.424L12 18.03l-7.234 4.536A.5.5 0 014 22.143V3a1 1 0 011-1zm13 2H6v15.432l6-3.761 6 3.761V4z"></path>
+</svg>
+
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-readinglist"><span class="bg-base-40 opacity-25 p-2 inline-block radius-default"></span></span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Save
+    </span>
+</button>
+
+
+<button
+  id="reaction-butt-boost"
+  aria-label="Boost"
+  aria-pressed="false"
+  class="crayons-reaction crayons-reaction--boost crayons-tooltip__activator relative">
+    <span class="crayons-reaction__icon crayons-reaction__icon--borderless crayons-reaction__icon--inactive">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" role="img" aria-hidden="true" class="crayons-icon" width="24" height="24">
+  <path transform="translate(24,0) scale(-1,1)" d="M6 4H21C21.5523 4 22 4.44772 22 5V12H20V6H6V9L1 5L6 1V4ZM18 20H3C2.44772 20 2 19.5523 2 19V12H4V18H18V15L23 19L18 23V20Z"></path>
+</svg>
+
+    </span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Boost
+    </span>
+</button>
+
+
+      <div class="only-sidebar-menu-item">
+        <div id="mod-actions-menu-btn-area" class="print-hidden trusted-visible-block align-center">
+        </div>
+      </div>
+      <div class="align-center m:relative">
+        <button id="article-show-more-button" aria-controls="article-show-more-dropdown" aria-expanded="false" aria-haspopup="true" class="dropbtn crayons-btn crayons-btn--ghost-dimmed crayons-btn--icon-rounded" aria-label="Share post options">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="acc33r81e44e3s2pourn3pj233lehhmv" aria-hidden="true" class="crayons-icon dropdown-icon"><title id="acc33r81e44e3s2pourn3pj233lehhmv">More...</title><path fill-rule="evenodd" clip-rule="evenodd" d="M7 12a2 2 0 11-4 0 2 2 0 014 0zm7 0a2 2 0 11-4 0 2 2 0 014 0zm5 2a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+
+        </button>
+
+        <div id="article-show-more-dropdown" class="crayons-dropdown side-bar left-2 right-2 m:right-auto m:left-100 s:left-auto mb-1 m:mb-0 top-unset bottom-100 m:top-0 m:bottom-unset">
+          <div>
+            <button
+              id="copy-post-url-button"
+              class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0"
+              data-postUrl="https://dev.to/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi">
+              <span class="fw-bold">Copy link</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="article-copy-icon" role="img" aria-labelledby="amixhm2cu05tdj64nzmqkhalia49j007" aria-hidden="true" class="crayons-icon mx-2 shrink-0"><title id="amixhm2cu05tdj64nzmqkhalia49j007">Copy link</title>
+    <path d="M7 6V3a1 1 0 011-1h12a1 1 0 011 1v14a1 1 0 01-1 1h-3v3c0 .552-.45 1-1.007 1H4.007A1 1 0 013 21l.003-14c0-.552.45-1 1.007-1H7zm2 0h8v10h2V4H9v2zm-2 5v2h6v-2H7zm0 4v2h6v-2H7z"></path>
+</svg>
+
+            </button>
+            <div id="article-copy-link-announcer" aria-live="polite" class="crayons-notice crayons-notice--success my-2 p-1" aria-live="polite" hidden>Copied to Clipboard</div>
+          </div>
+
+          <div class="Desktop-only">
+            <a
+              target="_blank"
+              class="crayons-link crayons-link--block"
+              rel="noopener"
+              href='https://twitter.com/intent/tweet?text=%22Microsoft%20Build%202026%20Developer%20Preview%3A%20Windows%20Agent%20Runtime%2C%20Multi-Model%20Copilot%2C%20and%20the%20Agentic%20Stack%22%20by%20%40Akaranjkar08%20%23DEVCommunity%20https%3A%2F%2Fdev.to%2Fakaranjkar08%2Fmicrosoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi'>
+              Share to X
+            </a>
+            <a
+              target="_blank"
+              class="crayons-link crayons-link--block"
+              rel="noopener"
+              href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fdev.to%2Fakaranjkar08%2Fmicrosoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi&title=Microsoft%20Build%202026%20Developer%20Preview%3A%20Windows%20Agent%20Runtime%2C%20Multi-Model%20Copilot%2C%20and%20the%20Agentic%20Stack&summary=Microsoft%20Build%202026%20%28June%202%E2%80%933%2C%20San%20Francisco%29%20developer%20guide%3A%20Windows%20Agent%20Runtime%2C%20Agent%20Framework%20GA%2C%20multi-model%20Copilot%2C%20and%20Azure%20AI%20Foundry.&source=DEV%20Community">
+              Share to LinkedIn
+            </a>
+            <a
+              target="_blank"
+              class="crayons-link crayons-link--block"
+              rel="noopener"
+              href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fdev.to%2Fakaranjkar08%2Fmicrosoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi">
+              Share to Facebook
+            </a>
+            <a
+              target="_blank"
+              class="crayons-link crayons-link--block"
+              rel="noopener"
+              href="https://s2f.kytta.dev/?text=https%3A%2F%2Fdev.to%2Fakaranjkar08%2Fmicrosoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi">
+              Share to Mastodon
+            </a>
+          </div>
+
+          <web-share-wrapper shareurl="https://dev.to/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi" sharetitle="Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack" sharetext="Microsoft Build 2026 (June 2–3, San Francisco) developer guide: Windows Agent Runtime, Agent Framework GA, multi-model Copilot, and Azure AI Foundry." template="web-share-button">
+          </web-share-wrapper>
+          <template id="web-share-button">
+            <a href="#" class="dropdown-link-row crayons-link crayons-link--block">Share Post via...</a>
+          </template>
+
+          <a href="/report-abuse" class="crayons-link crayons-link--block" id="ReportButtonAuthor">Report Abuse</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </aside>
+
+    <main id="main-content" class="crayons-layout__content grid gap-4">
+      <div class="article-wrapper">
+
+
+        <article class="crayons-card crayons-article mb-4"
+          id="article-show-container"
+          data-article-id="3779978"
+          data-article-slug="microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi"
+          data-author-id="235395"
+          data-author-name="Anup Karanjkar"
+          data-author-username="akaranjkar08"
+          data-co-author-ids=""
+          data-path="/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi"
+          data-pin-path="/stories/feed/pinned_article"
+          data-pinned-article-id=""
+          data-published="true"
+          data-scheduled="false"
+          lang=en
+           >
+          <script>
+            try {
+              if(localStorage) {
+                let currentUser = localStorage.getItem('current_user');
+
+                if (currentUser) {
+                  currentUser = JSON.parse(currentUser);
+                  if (currentUser.id === 235395) {
+                    document.getElementById('article-show-container').classList.add('current-user-is-article-author');
+                  }
+                }
+              }
+            } catch (e) {
+              console.error(e);
+            }
+          </script>
+          <header class="crayons-article__header" id="main-title">
+
+            <div class="crayons-article__header__meta">
+              <div class="flex s:items-start flex-col s:flex-row">
+                <div id="action-space" class="crayons-article__actions mb-4 s:mb-0 s:order-last"></div>
+                <div class="flex flex-1 mb-5 items-start">
+                  <div class="relative">
+                      <a href="/akaranjkar08"><img class="radius-full align-middle" src="https://media2.dev.to/dynamic/image/width=50,height=50,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F235395%2Fca502edd-b701-43c6-8324-7b07fefe0f24.jpg" width="40" height="40" alt="Anup Karanjkar" /></a>
+                  </div>
+                  <div class="pl-3 flex-1">
+                    <a href="/akaranjkar08" class="crayons-link fw-bold">Anup Karanjkar</a>
+                    
+                    <p class="fs-xs color-base-60">
+                        Posted on <time datetime="2026-05-29T18:22:52Z" class="date-no-year">May 29</time>
+
+
+                        &bull; Originally published at <a style="color:#1395b8" href="https://wowhow.cloud/blogs/microsoft-build-2026-windows-agent-runtime-copilot-developer-guide-2026">wowhow.cloud</a> 
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              
+
+              <h1 class=" fs-3xl m:fs-4xl l:fs-5xl fw-bold s:fw-heavy lh-tight mb-2 longer">
+                Microsoft Build 2026 Developer Preview: Windows Agent Runtime, Multi-Model Copilot, and the Agentic Stack
+              </h1>
+              
+                  <div class="spec__tags flex flex-wrap">
+                      <a class="crayons-tag   " style="
+        --tag-bg: rgba(64, 78, 211, 0.10);
+        --tag-prefix: #404ED3;
+        --tag-bg-hover: rgba(64, 78, 211, 0.10);
+        --tag-prefix-hover: #404ED3;
+      " href="/t/microsoftbuild"><span class="crayons-tag__prefix">#</span>microsoftbuild</a>
+                      <a class="crayons-tag   " style="
+        --tag-bg: rgba(64, 78, 211, 0.10);
+        --tag-prefix: #404ED3;
+        --tag-bg-hover: rgba(64, 78, 211, 0.10);
+        --tag-prefix-hover: #404ED3;
+      " href="/t/windowsagent"><span class="crayons-tag__prefix">#</span>windowsagent</a>
+                      <a class="crayons-tag   " style="
+        --tag-bg: rgba(64, 78, 211, 0.10);
+        --tag-prefix: #404ED3;
+        --tag-bg-hover: rgba(64, 78, 211, 0.10);
+        --tag-prefix-hover: #404ED3;
+      " href="/t/microsoftagent"><span class="crayons-tag__prefix">#</span>microsoftagent</a>
+                      <a class="crayons-tag   " style="
+        --tag-bg: rgba(64, 78, 211, 0.10);
+        --tag-prefix: #404ED3;
+        --tag-bg-hover: rgba(64, 78, 211, 0.10);
+        --tag-prefix-hover: #404ED3;
+      " href="/t/azureai"><span class="crayons-tag__prefix">#</span>azureai</a>
+                  </div>
+            </div>
+          </header>
+
+          <div class="crayons-article__main ">
+            <div class="crayons-article__body text-styles spec__body" data-article-id="3779978"
+              id="article-body">
+                <p><strong>Microsoft Build 2026 runs June 2–3 at Fort Mason Center in San Francisco</strong>, and the pre-conference disclosures make clear this is the most architecturally significant Build since Satya Nadella reoriented the company around cloud infrastructure over a decade ago. The theme is not incremental Copilot improvements or another layer of AI assistant features added to Office 365. It is Windows becoming a first-class runtime for autonomous AI agents, the Microsoft Agent Framework reaching production status, and Copilot being rebuilt as a multi-model platform that routes work across OpenAI, Anthropic, and open-source models simultaneously.</p>
+
+<p>For developers, the question is not whether to pay attention. It is where to focus, because the announcement surface area is enormous. This guide organizes what is confirmed shipping, what is in developer preview, and what the changes mean for anyone building production software on Microsoft's stack today.</p>
+
+<h2>
+  <a name="copilot-studio-may-2026-what-already-shipped-before-build" href="#copilot-studio-may-2026-what-already-shipped-before-build">
+  </a>
+  Copilot Studio May 2026: What Already Shipped Before Build
+</h2>
+
+<p>Microsoft's most consequential agentic announcements this cycle did not wait for the keynote. Copilot Studio's May 2026 update reached general availability on three features that fundamentally raise the architecture ceiling for what Copilot-based systems can do — and most enterprise developers have not yet integrated them.</p>
+
+<h3>
+  <a name="computerusing-agents-are-ga" href="#computerusing-agents-are-ga">
+  </a>
+  Computer-Using Agents Are GA
+</h3>
+
+<p>Computer-Using Agents in Copilot Studio can now interact directly with web applications and desktop software through their UI layers, not through brittle API integrations. This matters because most enterprise software does not expose a documented API for the operations employees actually perform day-to-day. The GA release ships with enterprise-grade credential management that eliminates the need to embed credentials in agent definitions, and adaptive interface recovery: when a target application changes its UI layout, the agent re-learns the interaction pattern rather than silently breaking. Microsoft describes this as "robotic process automation without the brittle scripts" — and the framing is accurate.</p>
+
+<h3>
+  <a name="agenttoagent-communication-is-ga" href="#agenttoagent-communication-is-ga">
+  </a>
+  Agent-to-Agent Communication Is GA
+</h3>
+
+<p>Agent-to-agent (A2A) communication also graduated to general availability in the May Copilot Studio update. Agents can now exchange structured messages, delegate subtasks, and coordinate across systems using shared organizational context. The underlying protocol is Microsoft's Work IQ A2A spec, built on top of the IETF-draft A2A protocol that Google co-developed in early 2026. For developers, the practical implication is that multi-agent orchestration is now a first-class capability in the Copilot Studio visual designer — no SDK required to wire agents together. Agents built with the Microsoft Agent Framework SDK are also wire-compatible with Copilot Studio A2A, meaning SDK-built agents and Studio-built agents can communicate directly in mixed deployments without custom adapters.</p>
+
+<h3>
+  <a name="redesigned-workflows-and-a-faster-orchestration-layer" href="#redesigned-workflows-and-a-faster-orchestration-layer">
+  </a>
+  Redesigned Workflows and a Faster Orchestration Layer
+</h3>
+
+<p>The May update ships a redesigned Workflows experience with a unified visual canvas that combines deterministic actions, conditional branching, and AI-powered steps in a single editing surface. The critical architectural improvement is that agent nodes can now be embedded directly inside workflow graphs, eliminating the split between Power Automate flows and Copilot agent actions that previously required two separate tooling surfaces to manage. The upgraded AI orchestration layer delivers approximately 20% better evaluation performance at 50% lower token consumption — meaningful economics for enterprise deployments running high volumes of agent invocations per day.</p>
+
+<p>Work IQ, Microsoft's enterprise agent intelligence layer, added REST API access, a CLI, and remote Model Context Protocol (MCP) server support in the same May update. If you are building integrations against Copilot Studio agents from external systems, the REST API is now the correct integration path rather than Power Automate connectors. The MCP server support means Copilot agents can share the same tool surface as Claude and Gemini agents — a significant interoperability improvement for organizations running mixed-provider AI stacks. For the broader context on MCP production patterns, the <a href="https://dev.to/blogs/mcp-model-context-protocol-97-million-downloads-developer-guide-2026">MCP developer guide</a> covers the production hardening patterns that matter most heading into the second half of 2026.</p>
+
+<h2>
+  <a name="microsoft-agent-framework-autogen-meets-semantic-kernel" href="#microsoft-agent-framework-autogen-meets-semantic-kernel">
+  </a>
+  Microsoft Agent Framework: AutoGen Meets Semantic Kernel
+</h2>
+
+<p>The headline developer announcement at Build 2026 is the production release of the Microsoft Agent Framework — the formal convergence of AutoGen and Semantic Kernel into a single, commercially supported SDK for building multi-agent systems. Both projects have been in active development since 2024. AutoGen contributed multi-agent orchestration patterns and research-grade coordination protocols. Semantic Kernel contributed enterprise-grade memory management, plugin architecture, and the integration connectors that .NET shops actually use in production. The unified framework inherits both codebases under a stable, versioned release with commercial SLA support.</p>
+
+<h3>
+  <a name="core-primitives-and-supported-languages" href="#core-primitives-and-supported-languages">
+  </a>
+  Core Primitives and Supported Languages
+</h3>
+
+<p>The Agent Framework GA release supports .NET (C# primary) and Python with consistent APIs across both runtimes. The core programming model is built around four primitives:</p>
+
+<ul>
+<li><p><strong>Agent</strong> — the base execution unit with a defined role, tool access, memory configuration, and optional model selection override</p></li>
+<li><p><strong>AgentGroup</strong> — an orchestrated collection of agents with configurable communication topology: broadcast, hierarchical, or peer-to-peer</p></li>
+<li><p><strong>AgentRuntime</strong> — the execution host supporting local process, containerized, and Azure-managed deployment targets</p></li>
+<li><p><strong>ToolRegistry</strong> — declarative registration of MCP servers, REST endpoints, function tools, and OpenAPI-described services</p></li>
+</ul>
+
+<p>The framework ships with built-in persistent memory backed by Azure Cosmos DB or Redis, circuit breakers for agent failure recovery, and structured observability logging that integrates with Application Insights out of the box. The agent-to-agent communication protocol is wire-compatible with the Copilot Studio A2A implementation, so agents built with the SDK can communicate with Copilot Studio agents in mixed deployments without custom adapters or message translation layers.</p>
+
+<h3>
+  <a name="deployment-and-pricing" href="#deployment-and-pricing">
+  </a>
+  Deployment and Pricing
+</h3>
+
+<p>Local execution is free. Azure-hosted AgentRuntime, managed through Azure AI Foundry, is priced on consumption: per-agent invocation and per tool call resolved through the Foundry layer. Exact per-invocation rates are expected to be announced at the June 2 keynote. Teams planning high-volume agentic workloads should audit usage under the AI Credits billing model that transitions on June 1 — the day before Build — to avoid unexpected cost surprises in the first week of production deployments.</p>
+
+<h2>
+  <a name="windows-becomes-an-agent-platform" href="#windows-becomes-an-agent-platform">
+  </a>
+  Windows Becomes an Agent Platform
+</h2>
+
+<p>The structurally most significant announcement at Build 2026 is a platform designation, not a product launch. Microsoft is formally repositioning Windows as the execution environment for AI agents at the operating system level — not just a desktop that runs AI applications, but a sandboxed runtime that treats agents as first-class system constructs with capability grants, lifecycle management, and a distribution channel analogous to the Microsoft Store.</p>
+
+<h3>
+  <a name="windows-agent-runtime-preview" href="#windows-agent-runtime-preview">
+  </a>
+  Windows Agent Runtime (Preview)
+</h3>
+
+<p>The Windows Agent Runtime preview ships to Windows Insiders in June 2026 alongside the Build announcements. The initial preview scope is intentionally narrow: text-based agents operating on structured data formats, specifically JSON, XML, and PDF files. Vision-based agents that can see and interact with UI elements are on the roadmap for 2027. The sandboxing model issues per-agent capability grants covering file system scope, network access, and application launch permissions. Users review and approve capability requests during agent installation, analogous to the permission model for mobile applications.</p>
+
+<h3>
+  <a name="windows-agent-store" href="#windows-agent-store">
+  </a>
+  Windows Agent Store
+</h3>
+
+<p>The Windows Agent Store is the distribution and discovery layer for Windows Agent Runtime agents. Publishers submit agents through a Microsoft security review covering capability disclosure, data handling policy declaration, and sandboxing compliance verification. The store launches in preview alongside the Windows Agent Runtime in June. For developers building agents intended for commercial distribution, the security review requirements are published in the Windows Agent Runtime SDK documentation and closely mirror the Microsoft Store certification process.</p>
+
+<h3>
+  <a name="ai-foundry-for-windows-sdk" href="#ai-foundry-for-windows-sdk">
+  </a>
+  AI Foundry for Windows SDK
+</h3>
+
+<p>Microsoft is shipping a new NuGet package — AI Foundry for Windows — that bundles the ONNX Runtime, DirectML, and the Copilot Runtime into a single installation target. This resolves a fragmentation problem that has made on-device AI development on Windows unnecessarily complex: applications wanting local model inference, DirectML GPU acceleration, and Copilot API access previously required three separate SDK installations with incompatible versioning chains. The unified package ships as a stable release at Build, making on-device inference a first-class deployment option for .NET developers without environment management overhead.</p>
+
+<h3>
+  <a name="devui-agent-execution-debugger" href="#devui-agent-execution-debugger">
+  </a>
+  DevUI: Agent Execution Debugger
+</h3>
+
+<p>DevUI is a browser-based local debugger shipping in preview at Build that visualizes agent execution in real time. It shows which agent is active in an orchestrated run, what memory state the agent is drawing on, how it is routing work to subagents, and what tool calls are pending or failed. The interface is similar to a distributed trace profiler but built specifically for agent execution graphs. Teams debugging multi-agent production failures have historically worked from Application Insights logs and execution trace dumps. DevUI makes the execution model visible without requiring custom instrumentation code.</p>
+
+<h2>
+  <a name="multimodel-copilot-and-azure-ai-foundry" href="#multimodel-copilot-and-azure-ai-foundry">
+  </a>
+  Multi-Model Copilot and Azure AI Foundry
+</h2>
+
+<p>Microsoft's decision to rebuild Copilot as a multi-model platform is one of the most commercially significant AI architecture choices the company has made since the original OpenAI partnership in 2023. The new Copilot orchestration layer routes requests across OpenAI models (GPT-5.5 and successors), Anthropic's Claude family, and small language models optimized for on-device Windows inference. Model selection is configurable at the enterprise tenant level and, in select scenarios, at the individual user preference level.</p>
+
+<p>For enterprise IT administrators, this eliminates the single-vendor model dependency that has been a procurement concern since the original Copilot for Microsoft 365 rollout. For developers building Copilot extensions and plugins, the multi-model routing is largely transparent at the request interface level — the same API surface handles all model variants regardless of which provider performs the inference. Azure AI Foundry acts as the routing and governance layer, with per-tenant model usage logged for compliance auditing.</p>
+
+<p>Azure AI Foundry also receives the Foundry Agents Service GA at Build — the managed service layer that wraps the Microsoft Agent Framework with production SLAs, auto-scaling, and a pre-built observability stack. Teams who want Agent Framework capabilities without managing agent infrastructure directly should evaluate Foundry Agents Service pricing against direct deployment to Azure Container Apps for their expected invocation volumes. The <a href="https://dev.to/blogs/microsoft-agent-365-enterprise-ai-control-plane-complete-guide-2026">Microsoft Agent 365 complete guide</a> covers the architectural decision points for enterprise deployments in detail.</p>
+
+<h2>
+  <a name="github-copilot-autonomous-coding-at-scale" href="#github-copilot-autonomous-coding-at-scale">
+  </a>
+  GitHub Copilot: Autonomous Coding at Scale
+</h2>
+
+<p>GitHub Copilot's autonomous coding agent — which can read issues, write implementation code, create tests, and open pull requests without developer prompting — was Build 2025's headlining demo. At Build 2026, Microsoft is expected to present what one year of production deployment across real codebases has taught the team, including where autonomous agents consistently succeed (well-scoped refactors, test generation, documentation updates) and where they require closer supervision (architecture decisions, security-sensitive paths, cross-repository dependency management).</p>
+
+<p>The anticipated focus areas for the Copilot announcements are multi-agent workflows inside VS Code, where separate specialized agents handle linting, test generation, documentation, and security review in parallel rather than sequentially; deeper GitHub and Azure AI Foundry integration that connects repository events directly to orchestrated agent runs; and updates on the June 1 AI Credits billing transition that changes how Copilot usage is metered for enterprise Microsoft 365 customers. Any team managing Copilot for a group of developers should review the AI Credits transition documentation before the June 1 cutover to have an accurate cost model from day one.</p>
+
+<h2>
+  <a name="what-developers-should-do-before-june-2" href="#what-developers-should-do-before-june-2">
+  </a>
+  What Developers Should Do Before June 2
+</h2>
+
+<p>If you are building on Microsoft's stack and want to be positioned to evaluate the Agent Framework on day one of the GA release, there are three concrete steps worth taking before the keynote:</p>
+
+<ol>
+<li><p><strong>Install the Microsoft Agent Framework preview NuGet package or Python wheel.</strong> Running through the quickstart samples before the GA announcement gives you a comparison baseline for evaluating what changed between preview and production, and which patterns to carry forward versus rebuild.</p></li>
+<li><p><strong>Audit your Copilot Studio agents for A2A compatibility.</strong> Agents built before the May 2026 Copilot Studio update use the previous message format for agent coordination. If you have existing multi-step automations, mapping the agent boundaries and communication patterns now makes the migration to the GA A2A protocol a scoped, planned effort rather than a reactive one.</p></li>
+<li><p><strong>Review the June 1 AI Credits billing structure before it takes effect.</strong> The transition from per-seat Copilot licensing to per-invocation AI Credits changes the cost equation significantly for high-volume deployments. Running a usage audit against current Copilot integration telemetry before the cutover is the only way to avoid billing surprises in the first week of the new model.</p></li>
+</ol>
+
+<p>For teams also evaluating where Microsoft's agentic platform fits against other providers — particularly Anthropic's Claude Code and Google's Gemini Enterprise stack — the A2A interoperability introduced by the May Copilot Studio update means agents from all three providers can now share tool surfaces through MCP. That is a materially different integration landscape than existed six months ago, and it changes the calculus of building on any single provider's orchestration layer.</p>
+
+<h2>
+  <a name="the-strategic-read" href="#the-strategic-read">
+  </a>
+  The Strategic Read
+</h2>
+
+<p>Microsoft Build 2026 is the conference where Microsoft publicly commits to an architectural bet it has been building toward since mid-2025: that enterprise software's next decade is agent orchestration platforms with application logic embedded, not SaaS applications with AI features added. The Windows Agent Runtime, the unified Agent Framework, the multi-model Copilot layer, and the Windows Agent Store are four surfaces of a single architecture — not four separate product launches.</p>
+
+<h2>
+  <a name="developers-who-internalize-that-coherence-before-the-june-2-keynote-will-be-better-positioned-to-navigate-the-announcement-volume-and-focus-on-the-two-or-three-changes-relevant-to-their-current-stack-the-full-session-catalog-and-documentation-will-publish-to-the-microsoft-developer-youtube-channel-and-the-official-build-website-simultaneously-with-the-keynote-this-guide-will-be-updated-with-confirmed-specifications-and-pricing-after-the-june-2-keynote" href="#developers-who-internalize-that-coherence-before-the-june-2-keynote-will-be-better-positioned-to-navigate-the-announcement-volume-and-focus-on-the-two-or-three-changes-relevant-to-their-current-stack-the-full-session-catalog-and-documentation-will-publish-to-the-microsoft-developer-youtube-channel-and-the-official-build-website-simultaneously-with-the-keynote-this-guide-will-be-updated-with-confirmed-specifications-and-pricing-after-the-june-2-keynote">
+  </a>
+  Developers who internalize that coherence before the June 2 keynote will be better positioned to navigate the announcement volume and focus on the two or three changes relevant to their current stack. The full session catalog and documentation will publish to the Microsoft Developer YouTube channel and the official Build website simultaneously with the keynote. This guide will be updated with confirmed specifications and pricing after the June 2 keynote.
+</h2>
+
+<p><em>Originally published at <a href="https://wowhow.cloud/blogs/microsoft-build-2026-windows-agent-runtime-copilot-developer-guide-2026" target="_blank" rel="noopener noreferrer">wowhow.cloud</a></em></p>
+
+
+            </div>
+
+              <div class="below-post-bb body-billboard-container" data-async-url="/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi/bmar11/post_body_bottom"></div>
+          </div>
+          <section id="comments" data-follow-button-container="true" data-updated-at="2026-05-31 05:29:47 UTC" class="text-padding mb-4 border-t-1 border-0 border-solid border-base-10">
+    <header class="relative flex justify-between items-center mb-6">
+      <div class="flex items-center">
+        <h2 class="crayons-subtitle-1">
+          Top comments <span class="js-comments-count" data-comments-count="0">(0)</span>
+        </h2>
+      </div>
+
+
+      <div id="comment-subscription" class="print-hidden">
+        <div class="crayons-btn-group">
+          <span class="crayons-btn crayons-btn--outlined">Subscribe</span>
+        </div>
+      </div>
+    </header>
+    <div id="billboard_delay_trigger"></div>
+    <div
+      id="comments-container"
+      data-testid="comments-container"
+      data-commentable-id="3779978"
+      data-commentable-type="Article"
+      data-has-recent-comment-activity="true">
+
+        <div id="response-templates-data" class="hidden"></div>
+
+
+<form class="comment-form print-hidden" id="new_comment" action="/comments" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" autocomplete="off" />
+
+  <input type="hidden" name="authenticity_token" value="NOTHING" id="new_comment_authenticity_token">
+
+    <input value="3779978" autocomplete="off" type="hidden" name="comment[commentable_id]" id="comment_commentable_id" />
+    <input value="Article" autocomplete="off" type="hidden" name="comment[commentable_type]" id="comment_commentable_type" />
+    
+
+  <span class="crayons-avatar m:crayons-avatar--l mr-2 shrink-0">
+    <img src="https://media2.dev.to/dynamic/image/width=256,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png" width="32" height="32" alt="pic" class="crayons-avatar__image overflow-hidden" id="comment-primary-user-profile--avatar" loading="lazy" />
+  </span>
+  <div class="comment-form__inner">
+    <div class="comment-form__field" data-tracking-name="comment_form_textfield">
+      <textarea placeholder="Add to the discussion" onfocus="handleFocus(event)" onkeyup="handleKeyUp(event)" onkeydown="handleKeyDown(event)" oninput="handleChange(event)" id="text-area" required="required" class="crayons-textfield comment-textarea crayons-textfield--ghost" aria-label="Add a comment to the discussion" name="comment[body_markdown]">
+</textarea>
+
+    </div>
+
+    <div class="response-templates-container crayons-card crayons-card--secondary p-4 mb-4 comment-form__templates fs-base hidden">
+      <header class="mb-3">
+        <button type="button" class="crayons-btn personal-template-button active" data-target-type="personal" data-form-id="new_comment">Personal</button>
+        <button type="button" class="crayons-btn moderator-template-button hidden" data-target-type="moderator" data-form-id="new_comment">Trusted User</button>
+      </header>
+
+      <div class="personal-responses-container">
+      </div>
+      <div class="moderator-responses-container hidden">
+      </div>
+
+      <a target="_blank" rel="noopener nofollow" href="/settings/response-templates">
+        Create template
+      </a>
+      <p>Templates let you quickly answer FAQs or store snippets for re-use.</p>
+    </div>
+
+    <div class="comment-form__preview text-styles text-styles--secondary" id="preview-div"></div>
+
+    <div class="comment-form__buttons mb-4">
+      <button type="submit" class="crayons-btn mr-2 js-btn-enable" onclick="validateField(event)" data-tracking-name="comment_submit_button" disabled>Submit</button>
+      <button type="button" class="preview-toggle crayons-btn crayons-btn--secondary comment-action-preview js-btn-enable mr-2" data-tracking-name="comment_preview_button" disabled>Preview</button>
+      <a href="/404.html" class="dismiss-edit-comment crayons-btn crayons-btn--ghost js-btn-dismiss hidden">Dismiss</a>
+    </div>
+  </div>
+
+  <div class="code-of-conduct" id="toggle-code-of-conduct-checkbox"></div>
+</form>
+
+
+      <div class="comments" id="comment-trees-container">
+      </div>
+    </div>
+
+    <div class="align-center">
+
+
+  <nav class="fs-s align-center block" aria-label="Conduct controls">
+  <a href="/code-of-conduct" class="crayons-link crayons-link--secondary">Code of Conduct</a>
+  <span class="opacity-25 px-2" role="presentation">&bull;</span>
+  <a href="/report-abuse" class="crayons-link crayons-link--secondary">Report abuse</a>
+</nav>
+
+</div>
+
+</section>
+<div id="hide-comments-modal" class="hidden">
+  <form id="hide-comments-modal__form" class="hide-comments-modal__form" data-type="json" action="/comments/hide" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" autocomplete="off" /><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="P8RZX14RRiRLTmYqbVqY1MIu52sXsUnKn4VlljxTIOYbSq4ZDgX-l55T63DmwZU4u4DVx7AOZCMgwxXn7hyRgw" autocomplete="off" />
+    <div class="hide-comments-modal__content">
+      <p class="pb-2">
+        Are you sure you want to hide this comment? It will become hidden in your post, but will still be visible via the comment's <a id="hide-comments-modal__comment-permalink" href="#">permalink</a>.
+      </p>
+      <label class="crayons-field crayons-field--checkbox my-2">
+        <input name="hide_children" type="hidden" value="0" autocomplete="off" /><input class="hide_children crayons-checkbox" type="checkbox" value="1" name="hide_children" id="hide_children" />
+        <p class="crayons-field__label">Hide child comments as well</p>
+      </label>
+      <p class="pb-4 pt-2">
+        <button type="submit" class="crayons-btn">
+          Confirm
+        </button>
+      </p>
+    </div>
+</form>  <p class="fs-s color-base-60">For further actions, you may consider blocking this person and/or <a id="hide-comments-modal__report-link" href="/report-abuse">reporting abuse</a></p>
+</div>
+
+
+
+        </article>
+
+        <div class="pb-4 crayons-layout__comments-billboard">
+          <div class="new-bb-container pb-4 crayons-layout__comments-billboard" data-async-url="/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi/bmar11/post_comments"></div>
+        </div>
+
+          <!-- Bottom content skipped via SKIP_BOTTOM_CONTENT config -->
+      </div>
+    </main>
+
+    <aside class="crayons-layout__sidebar-right" aria-label="Author details">
+      <div class="crayons-article-sticky grid gap-4 pb-4 break-word" id="article-show-primary-sticky-nav">
+  <div class="crayons-card crayons-card--secondary branded-7 p-4 pt-0 gap-4 grid" style="border-top-color: #002a9e;">
+    <div class="-mt-4">
+  <a href="/akaranjkar08" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F235395%2Fca502edd-b701-43c6-8324-7b07fefe0f24.jpg" class="crayons-avatar__image" alt="" loading="lazy" />
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">
+      Anup Karanjkar
+      
+    </span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:235395,&quot;name&quot;:&quot;Anup Karanjkar&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Anup Karanjkar" aria-pressed="false">Follow</button>
+</div>
+  <div class="color-base-70">
+    I am Ui/Ux Designer, I love to design and develop the website.
+  </div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+        <li>
+          <div class="key">
+            Location
+          </div>
+          <div class="value">
+            Pune, India.
+          </div>
+        </li>
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              Sr. Web Developer at Larsen and Tourbo Infotech
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2019-09-24T06:50:48Z" class="date">Sep 24, 2019</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  </div>
+
+      <div class="crayons-card crayons-card--secondary">
+        <header class="crayons-card__header">
+          <h3 class="crayons-subtitle-2">
+            Trending on <a href="https://dev.to">DEV Community</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="24" height="24" role="img" aria-labelledby="at3aa9u3a6dk9r3ng3i6qa0f3ztc22cj" class="crayons-icon crayons-icon--default"><title id="at3aa9u3a6dk9r3ng3i6qa0f3ztc22cj">Hot</title>
+    <g class="nc-icon-wrapper">
+        <path fill="#F4900C" d="M39 23a16.96 16.96 0 00-1.04-5.868c-.46 5.389-3.333 8.157-6.335 6.868-2.812-1.208-.917-5.917-.777-8.164.236-3.809-.012-8.169-6.931-11.794 2.875 5.5.333 8.917-2.333 9.125-2.958.231-5.667-2.542-4.667-7.042-3.238 2.386-3.332 6.402-2.333 9 1.042 2.708-.042 4.958-2.583 5.208-2.84.28-4.418-3.041-2.963-8.333A16.936 16.936 0 005 23c0 9.389 7.611 17 17 17s17-7.611 17-17z"></path>
+        <path fill="#FFCC4D" d="M32.394 27.999c.148 3.084-2.561 4.293-4.019 3.709-2.106-.843-1.541-2.291-2.083-5.291s-2.625-5.083-5.708-6c2.25 6.333-1.247 8.667-3.08 9.084-1.872.426-3.753-.001-3.968-4.007A11.964 11.964 0 0010 34c0 .368.023.73.055 1.09C13.125 38.124 17.342 40 22 40s8.875-1.876 11.945-4.91c.032-.36.055-.722.055-1.09 0-2.187-.584-4.236-1.606-6.001z"></path>
+    </g>
+</svg>
+
+          </h3>
+        </header>
+        <div>
+            <a class="crayons-link crayons-link--contentful flex" href="/ryantsuji/human-on-the-loop-ai-reviewing-ai-prs-at-cortex-769-prsmonth-while-raising-the-quality-bar-4lh5">
+              <span class="crayons-avatar mr-2 shrink-0">
+                <img src="https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3843591%2F8b126f91-f561-4e6b-8492-814b18d680ec.jpg" class="crayons-avatar__image" loading="lazy" alt="Ryosuke Tsuji profile image">
+              </span>
+              <div>
+                Human-on-the-Loop: AI Reviewing AI PRs at cortex (769 PRs/month, while raising the quality bar)
+                <div class="crayons-link__secondary -ml-1">
+                    <span class="mr-1"><span class="opacity-50">#</span>ai</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>codereview</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>devops</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>productivity</span>
+                </div>
+              </div>
+            </a>
+            <a class="crayons-link crayons-link--contentful flex" href="/ijay/do-you-really-need-certifications-to-get-a-job-21l9">
+              <span class="crayons-avatar mr-2 shrink-0">
+                <img src="https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F691309%2F3cfc37d1-ceb9-4869-ab1a-a29581db29ce.png" class="crayons-avatar__image" loading="lazy" alt="Ijay profile image">
+              </span>
+              <div>
+                Do You Really Need Certifications to Get a Job? 🤔
+                <div class="crayons-link__secondary -ml-1">
+                    <span class="mr-1"><span class="opacity-50">#</span>aws</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>developers</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>certification</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>career</span>
+                </div>
+              </div>
+            </a>
+            <a class="crayons-link crayons-link--contentful flex" href="/hemapriya_kanagala/hermes-agent-changed-how-i-think-about-execution-boundaries-3h2n">
+              <span class="crayons-avatar mr-2 shrink-0">
+                <img src="https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3307586%2F2dffaf97-946d-44a6-8a39-07d94a72e07d.png" class="crayons-avatar__image" loading="lazy" alt="Hemapriya Kanagala profile image">
+              </span>
+              <div>
+                Hermes Agent Changed How I Think About Execution Boundaries
+                <div class="crayons-link__secondary -ml-1">
+                    <span class="mr-1"><span class="opacity-50">#</span>hermesagentchallenge</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>devchallenge</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>agents</span>
+                    <span class="mr-1"><span class="opacity-50">#</span>discuss</span>
+                </div>
+              </div>
+            </a>
+        </div>
+      </div>
+</div>
+
+<div class="crayons-article-sticky grid gap-4 break-word sidebar-bb" data-async-url="/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi/bmar11/post_sidebar"></div>
+
+    </aside>
+  </div>
+
+  <div class="mod-actions-menu print-hidden"></div>
+  <div data-testid="unpublish-post-modal-container" class="unpublish-post-modal-container hidden"></div>
+
+  <div class="fullscreen-code js-fullscreen-code"></div>
+  <script src="https://assets.dev.to/assets/billboard-eec21d07e54c32f761d68007dc95fef96505557cbe27c5c8aae297aa9abfe42f.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/localizeArticleDates-70147c5c6bfe350b42e020ebb2a3dd37419d83978982b5a67b6389119bf162ac.js" defer="defer"></script>
+<script src="https://assets.dev.to/assets/articleReactions-1f2220b03b8ee48f0e9196d07b123ad5c5d942328819c33728eab4a4ff83150b.js" defer="defer"></script>
+
+  <script>
+  </script>
+  <div class="js-billboard-container pb-4 crayons-layout__comments-billboard" data-async-url="/akaranjkar08/microsoft-build-2026-developer-preview-windows-agent-runtime-multi-model-copilot-and-the-agentic-5pi/bmar11/post_fixed_bottom"></div>
+
+
+    <div id="runtime-banner-container"></div>
+    <div id="i18n-translations" data-translations="{&quot;en&quot;:{&quot;core&quot;:{&quot;add_comment&quot;:&quot;Add comment&quot;,&quot;beta&quot;:&quot;beta&quot;,&quot;comment&quot;:&quot;Comment&quot;,&quot;copy_link&quot;:&quot;Copy link&quot;,&quot;edit_profile&quot;:&quot;Edit profile&quot;,&quot;follow&quot;:&quot;Follow&quot;,&quot;follow_back&quot;:&quot;Follow back&quot;,&quot;following&quot;:&quot;Following&quot;,&quot;like&quot;:&quot;Like&quot;,&quot;loading&quot;:&quot;loading...&quot;,&quot;reaction&quot;:&quot;Reaction&quot;,&quot;report_abuse&quot;:&quot;Report abuse&quot;,&quot;search&quot;:&quot;Search&quot;,&quot;success_settings&quot;:&quot;Successfully updated settings.&quot;,&quot;search_placeholder&quot;:&quot;Search...&quot;,&quot;search_find_related_posts&quot;:&quot;Find related posts...&quot;,&quot;search_powered_by&quot;:&quot;Powered by Algolia&quot;,&quot;search_submit_search&quot;:&quot;Submit search for advanced filtering.&quot;,&quot;search_displaying_recommendations&quot;:&quot;Displaying Algolia Recommendations — Start typing to search&quot;,&quot;article_form_save_changes&quot;:&quot;Save changes&quot;,&quot;article_form_schedule&quot;:&quot;Schedule&quot;,&quot;article_form_publish&quot;:&quot;Publish&quot;,&quot;article_form_loading_preview&quot;:&quot;Loading preview&quot;,&quot;article_form_preview_loaded&quot;:&quot;Preview loaded&quot;,&quot;article_form_co_authors&quot;:&quot;Co-authors&quot;,&quot;article_form_co_authors_description&quot;:&quot;Add up to 4 co-authors from %{org_name}.&quot;,&quot;article_form_co_authors_placeholder&quot;:&quot;Add up to 4...&quot;,&quot;comments_preview&quot;:&quot;Preview&quot;,&quot;comments_continue_editing&quot;:&quot;Continue editing&quot;,&quot;survey_enter_response&quot;:&quot;Enter your response here...&quot;,&quot;survey_thank_you_response&quot;:&quot;Thank you for your response.&quot;,&quot;survey_thank_you_completing&quot;:&quot;Thank you for completing the survey!&quot;,&quot;dashboard_analytics_readers&quot;:&quot;Readers&quot;,&quot;dashboard_analytics_avg_read_time&quot;:&quot;avg. read time %{seconds}s&quot;,&quot;dashboard_analytics_comments&quot;:&quot;Comments&quot;,&quot;dashboard_analytics_reactions&quot;:&quot;Reactions&quot;,&quot;dashboard_analytics_unique_reactors&quot;:&quot;from %{count} unique users&quot;,&quot;dashboard_analytics_bookmarks&quot;:&quot;Bookmarks&quot;,&quot;dashboard_analytics_followers&quot;:&quot;New Followers&quot;,&quot;top_contributors_empty&quot;:&quot;No engagers found for this period.&quot;,&quot;top_contributors_reactions&quot;:&quot;reactions&quot;,&quot;top_contributors_comments&quot;:&quot;comments&quot;,&quot;top_contributors_weight_note&quot;:&quot;Comments carry more weight&quot;,&quot;follower_engagement_ratio&quot;:&quot;%{ratio}% of followers engaged&quot;,&quot;follower_engagement_detail&quot;:&quot;(%{engaged} of %{total})&quot;,&quot;dashboard_analytics_no_data&quot;:&quot;No data available for this period&quot;,&quot;dashboard_analytics_no_referrers&quot;:&quot;No traffic sources yet&quot;,&quot;stats_by&quot;:&quot;by&quot;,&quot;editor_new_title&quot;:&quot;New post title here...&quot;,&quot;editor_body_placeholder&quot;:&quot;Write your post content here...&quot;,&quot;tags_field_label&quot;:&quot;Add up to 4 tags&quot;,&quot;tags_field_placeholder&quot;:&quot;Add up to 4 tags...&quot;,&quot;counted_organization&quot;:{&quot;one&quot;:&quot;%{count} organization&quot;,&quot;other&quot;:&quot;%{count} organizations&quot;},&quot;counted_user&quot;:{&quot;one&quot;:&quot;%{count} person&quot;,&quot;other&quot;:&quot;%{count} people&quot;},&quot;not_following&quot;:&quot;You&#39;re not following anyone&quot;,&quot;following_everyone&quot;:&quot;You&#39;re following %{details} (everyone)&quot;,&quot;you_are_following&quot;:&quot;You&#39;re following&quot;,&quot;and&quot;:&quot;and&quot;}}}"></div>
+  </div>
+</div>
+    
+
+<footer id="footer" class="crayons-footer print-hidden">
+  <div id="footer-container" class="crayons-footer__container">
+
+
+        <style>
+  .long-bb-body {
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+  }
+  .long-bb-bottom {
+    height: 180px;
+    background: linear-gradient(to top, var(--card-bg), transparent);
+    margin-top: -180px;
+    position:relative;
+    z-index: 5;
+  }
+</style>
+
+  <div
+    style=""
+    data-display-unit data-id="146443"
+    data-category-click="click"
+    data-category-impression="impression"
+    data-context-type="home"
+    data-special="nothing"
+    data-article-id=""
+    data-type-of="in_house">
+          <div class="crayons-card crayons-card--secondary crayons-bb bb-placement js-billboard" style="display: inline-flex; flex-direction: column; align-items: center; margin: 0 auto 2rem auto; width: fit-content; padding: 2rem;">
+        <p style="font-weight: bold; margin: 0 0 1rem 0;">
+            💎 DEV Diamond Sponsors
+        </p>
+        <p style="font-size: 0.8em; margin: 0 0 2rem 0;">
+            Thank you to our Diamond Sponsors for supporting the DEV Community
+        </p>
+    
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+            <div style="display: inline-block; max-width: 240px; font-size: 0.8em; font-style: italic; text-align: center; padding: 10px; background: #ffffff; border-radius: 5px; color: #404040;">
+                <a href="https://aistudio.google.com/?utm_source=partner&amp;utm_medium=partner&amp;utm_campaign=FY25-Global-DEVpartnership-sponsorship-AIS&amp;utm_content=-&amp;utm_term=-&bb=146443" target="_blank" rel="noopener noreferrer" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://media2.dev.to/dynamic/image/width=880%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxjlyhbdqehj3akhz166w.png" alt="Google AI - Official AI Model and Platform Partner" style="display: block; background: #ffffff; margin: 0 auto; width: auto; height: 54px; padding: 10px;" loading="lazy" width="2048" height="472">
+                </a>
+                <p style="text-align: center;">Google AI is the official AI Model and Platform Partner of DEV</p>
+            </div>
+
+            <div style="display: inline-block; max-width: 240px; font-size: 0.8em; font-style: italic; text-align: center; padding: 10px; background: #ffffff; border-radius: 5px; color: #404040;">
+                <a href="https://neon.tech/?ref=devto&bb=146443" target="_blank" rel="noopener noreferrer" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://media2.dev.to/dynamic/image/width=880%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbnl88cil6afxzmgwrgtt.png" alt="Neon - Official Database Partner" style="display: block; background: #ffffff; margin: 0 auto; width: auto; height: 60px; padding: 10px;" loading="lazy" width="2286" height="596">
+                </a>
+                <p style="text-align: center;">Neon is the official database partner of DEV</p>
+            </div>
+    
+            <div style="display: inline-block; max-width: 240px; font-size: 0.8em; font-style: italic; text-align: center; padding: 10px; background: #ffffff; border-radius: 5px; color: #404040;">
+                <a href="https://www.algolia.com/developers/?utm_source=devto&amp;utm_medium=referral&bb=146443" target="_blank" rel="noopener noreferrer" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://media2.dev.to/dynamic/image/width=880%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fv30ephnolfvnlwgwm0yz.png" alt="Algolia - Official Search Partner" style="display: block; background: #ffffff; margin: 0 auto; width: auto; height: 60px; padding: 10px;" loading="lazy" width="2286" height="596">
+                </a>
+                <p style="text-align: center;">Algolia is the official search partner of DEV</p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+    <p class="fs-s crayons-footer__description">
+      <a class="c-link c-link--branded fw-medium" aria-label="DEV Community Home" href="/">DEV Community</a> — A space to discuss and keep up software development and manage your software career
+    </p>
+
+    <ul class="footer__nav-links flex gap-2 justify-center flex-wrap fs-s p-0" style="" />
+        <li class="footer__nav-link flex items-center">
+    <a href="/">
+      Home
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/challenges">
+      DEV Challenges
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/++">
+      DEV++
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/videos">
+      Videos
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/deved">
+      DEV Education Tracks
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/help">
+      DEV Help
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/advertise">
+      Advertise on DEV
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/organizations">
+      Organization Accounts
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/showcase">
+      DEV Showcase
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/about">
+      About
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/contact">
+      Contact
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/free-postgres-database-tier">
+      Free Postgres Database
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://shop.forem.com/">
+      DEV Shop
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://mlh.io/">
+      MLH
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+
+    </ul>
+
+    <ul class="footer__nav-links flex gap-2 justify-center flex-wrap fs-s p-0" style="" />
+        <li class="footer__nav-link flex items-center">
+    <a href="/code-of-conduct">
+      Code of Conduct
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/privacy">
+      Privacy Policy
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="/terms">
+      Terms of Use
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+
+    </ul>
+
+    <div class="fs-s">
+      <p>Built on <a class="c-link c-link--branded" target="_blank" rel="noopener" href="https://www.forem.com">Forem</a> — the <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to/t/opensource">open source</a> software that powers <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to">DEV</a> and other inclusive communities.</p>
+      <p>Made with love and <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to/t/rails">Ruby on Rails</a>. DEV Community <span title="copyright">&copy;</span> 2016 - 2026.</p>
+    </div>
+  </div>
+</footer>
+<div id="snack-zone"></div>
+
+    <div id="global-signup-modal" class="authentication-modal hidden">
+  <div class="authentication-modal__container">
+    <figure class="authentication-modal__image-container">
+      <img class="authentication-modal__image" src="https://media2.dev.to/dynamic/image/width=190,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png"
+        alt="DEV Community" loading="lazy" />
+    </figure>
+    <div class="authentication-modal__content">
+      <p class="authentication-modal__description">
+          We&#39;re a place where coders share, stay up-to-date and grow their careers.
+      </p>
+    </div>
+    <div class="authentication-modal__actions">
+      <a href="https://dev.to/enter?signup_subforem=1" class="crayons-btn" aria-label="Log in" data-no-instant>
+        Log in
+      </a>
+      <a href="https://dev.to/enter?signup_subforem=1&amp;state=new-user" class="crayons-btn crayons-btn--ghost-brand js-global-signup-modal__create-account" aria-label="Create new account" data-no-instant>
+        Create account
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://assets.dev.to/assets/signupModalShortcuts-0b25469b985100a01e94cbd7fccaf7f0a4d776e129aac65c766aa32cb28ab29a.js" defer="defer"></script>
+
+    <div id="cookie-consent"></div>
+  <div id="reaction-category-resources" class="hidden" aria-hidden="true">
+    <img data-name="Like" data-slug="like" data-position="1" src="https://assets.dev.to/assets/sparkle-heart-5f9bee3767e18deb1bb725290cb151c25234768a0e9a2bd39370c382d02920cf.svg" width="18" height="18" />
+    <img data-name="Unicorn" data-slug="unicorn" data-position="2" src="https://assets.dev.to/assets/multi-unicorn-b44d6f8c23cdd00964192bedc38af3e82463978aa611b4365bd33a0f1f4f3e97.svg" width="18" height="18" />
+    <img data-name="Exploding Head" data-slug="exploding_head" data-position="3" src="https://assets.dev.to/assets/exploding-head-daceb38d627e6ae9b730f36a1e390fca556a4289d5a41abb2c35068ad3e2c4b5.svg" width="18" height="18" />
+    <img data-name="Raised Hands" data-slug="raised_hands" data-position="4" src="https://assets.dev.to/assets/raised-hands-74b2099fd66a39f2d7eed9305ee0f4553df0eb7b4f11b01b6b1b499973048fe5.svg" width="18" height="18" />
+    <img data-name="Fire" data-slug="fire" data-position="5" src="https://assets.dev.to/assets/fire-f60e7a582391810302117f987b22a8ef04a2fe0df7e3258a5f49332df1cec71e.svg" width="18" height="18" />
+</div>
+
+    <script>
+  var userSignedIn = false;
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initAuth();
+  } else {
+    document.addEventListener('DOMContentLoaded', initAuth);
+  }
+
+  function initAuth() {
+    var paramToken = new URLSearchParams(window.location.search).get('jwt');
+
+    if (paramToken && !userSignedIn) {
+      authenticateUser(paramToken);
+    } else {
+      var iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'https://forem.com/auth_pass/iframe';
+  
+      document.body.appendChild(iframe);
+  
+      window.addEventListener('message', function(event) {
+        if (event.origin !== 'https://forem.com' && event.origin !== window.location.origin) {
+          return;
+        }
+  
+        var data = event.data;
+  
+        if (data.authenticated && !userSignedIn) {
+          authenticateUser(data.token);
+        } else if(data.authenticated && window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+          window.ReactNativeWebView.postMessage(JSON.stringify({
+            action: 'login',
+            token: data.token,
+          }));
+        }
+      });  
+    }
+
+    function authenticateUser(token) {
+      fetch('/auth_pass/token_login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': getMetaContent('csrf-token'),
+        },
+        body: JSON.stringify({ token: token }),
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        if (data.success) {
+          if (document.head.querySelector('meta[name="user-signed-in"][content="false"]')) {
+            // Reload the page to update the user's state
+            location.reload();
+          }
+        }
+      })
+      .catch(function(error) {
+        console.error('Error during authentication:', error);
+      });
+    }
+
+    function getMetaContent(name) {
+      var element = document.querySelector('meta[name="' + name + '"]');
+      return element ? element.getAttribute('content') : '';
+    }
+  }
+</script>
+
+  
+  
+  
+  </body>
+  </html>

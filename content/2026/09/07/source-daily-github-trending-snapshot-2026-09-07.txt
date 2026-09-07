@@ -1,0 +1,23 @@
+GitHub Trending daily snapshot
+Captured via a real Chrome session on 2026-09-07 (Asia/Shanghai).
+Source page: https://github.com/trending?since=daily
+
+cathrynlavery / diagram-design
+38 editorial diagram types for Claude Code, Codex, and Pi. Self-contained HTML + SVG.
+32,331 stars total
+620 stars today
+
+magnitudedev / magnitude
+Open source inference server that runs the best local models for your hardware, plugged into the agent you already use.
+3,664 stars total
+604 stars today
+
+aipoch / open-science
+Open-source, local-first, model-agnostic AI research workbench for macOS, Windows, and Linux.
+3,848 stars total
+146 stars today
+
+anomalyco / opencode
+The open source coding agent.
+205,249 stars total
+551 stars today
